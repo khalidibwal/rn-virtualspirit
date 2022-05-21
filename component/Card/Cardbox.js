@@ -28,7 +28,7 @@ export default function CardBox() {
   }
   const AdvLikes = (id) => {
     var data = VirtualData.filter((item)=> item.likesId === id).map((item)=>(item.likesId))
-    if(data.toString() == id){
+    if(data.toString()){
       if(dislikeActive){
         LikeAct();
         DislikeAct();
@@ -66,7 +66,7 @@ export default function CardBox() {
             <Image style={styles.CardImg} source={{uri:item.uri}}/>
             <View style={styles.BtnStyle}>
                 <Button containerStyle={styles.LikeTxt} size="md" type="outline"><Text>{likes}</Text></Button>
-                <Button onPress={()=> AdvLikes(item.likesId)} disabled={likeActive} containerStyle={styles.BtnContainer} size="md">Like</Button>
+                <Button onPress={()=> AdvLikes(item.likesId)} containerStyle={styles.BtnContainer} size="md">Like</Button>
                 <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
             </View>
         </Card>
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   container: {
     width : '100%',
         marginTop: 55,
-        marginBottom : 15,
+        marginBottom : 55,
         borderRadius : 15,
         backgroundColor : '#FFFFFF',
   },
