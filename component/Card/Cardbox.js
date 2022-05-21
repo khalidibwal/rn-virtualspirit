@@ -55,9 +55,9 @@ export default function CardBox() {
   return (
     <View style={styles.container}>
         <View style={styles.AllBtn}>
-            <Button onPress={()=> handleAllLikes()} containerStyle={styles.BtnContainer}>Like All</Button>
-            <Button onPress={()=> ResetLike()} type='outline' containerStyle={styles.BtnContainer}>Reset</Button>
-            <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.BtnContainer} color='error'>Dislike All</Button>
+            <Button onPress={()=> handleAllLikes()} containerStyle={styles.AllBtnContainer}>Like All</Button>
+            <Button onPress={()=> ResetLike()} type='outline' containerStyle={styles.AllBtnContainer}>Reset</Button>
+            <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.AllBtnContainer} color='error'>Dislike All</Button>
         </View>
         <FlatList
         data={VirtualData}
@@ -101,6 +101,10 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     borderRadius:15
   },
+  AllBtnContainer:{
+    padding:10,
+    justifyContent:'center'
+  },
   LikeTxt:{
       padding:5,
       justifyContent:'flex-start'
@@ -108,5 +112,6 @@ const styles = StyleSheet.create({
   AllBtn:{
       flexDirection:'row',
       justifyContent:'center'
+      
   }
 });
