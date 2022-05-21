@@ -2,6 +2,7 @@ import React,{useState} from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, FlatList } from 'react-native';
 import {  Card } from '@rneui/themed';
 import {  Button } from '@rneui/base';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import VirtualData from '../API/VirtualData';
 
 export default function CardBox() {
@@ -66,8 +67,8 @@ export default function CardBox() {
             <Image style={styles.CardImg} source={{uri:item.uri}}/>
             <View style={styles.BtnStyle}>
                 <Button containerStyle={styles.LikeTxt} size="md" type="outline"><Text>{likes}</Text></Button>
-                <Button onPress={()=> AdvLikes(item.likesId)} containerStyle={styles.BtnContainer} size="md">Like</Button>
-                <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
+                <Button onPress={()=> AdvLikes(item.likesId)} containerStyle={styles.BtnContainer} size="md"><Icon name="thumbs-up" size={30} color="#900" />Like</Button>
+                <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.BtnContainer} color='error' size="md"><Icon name="thumbs-down" size={30} color="#900" />Dislike</Button>
             </View>
         </Card>
         )}
