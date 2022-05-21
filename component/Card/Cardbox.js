@@ -19,27 +19,45 @@ export default function CardBox() {
     setLikes(likeActive ? likes - 1 : likes + 1)
   }
 
-  const handleLikes = () =>{
+  const handleAllLikes = () =>{
     if(dislikeActive){
       LikeAct();
       DislikeAct();
     }
     LikeAct();
   }
+  const AdvLikes = (id) => {
+    var data = VirtualData.filter((item)=> item.likesId === id).map((item)=>(item.likesId))
+    if(data.toString() == id){
+      if(dislikeActive){
+        LikeAct();
+        DislikeAct();
+      }
+      LikeAct();
+    }
 
-  const HandleDislikes = () =>{
+  }
+
+  const HandleAllDislikes = () =>{
     if(likeActive){
       DislikeAct();
       LikeAct();
     }
     DislikeAct();
   }
+
+  const ResetLike = () =>{
+    setLikes(0)
+    setDislikes(0)
+    setLikeActive(false)
+    setdisLikeActive(false)
+  }
   return (
     <View style={styles.container}>
         <View style={styles.AllBtn}>
-            <Button onPress={()=> handleLikes()} containerStyle={styles.BtnContainer}>Like All</Button>
-            <Button type='outline' containerStyle={styles.BtnContainer}>Reset</Button>
-            <Button onPress={()=> HandleDislikes()} containerStyle={styles.BtnContainer} color='error'>Dislike All</Button>
+            <Button onPress={()=> handleAllLikes()} containerStyle={styles.BtnContainer}>Like All</Button>
+            <Button onPress={()=> ResetLike()} type='outline' containerStyle={styles.BtnContainer}>Reset</Button>
+            <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.BtnContainer} color='error'>Dislike All</Button>
         </View>
         <FlatList
         data={VirtualData}
@@ -47,9 +65,9 @@ export default function CardBox() {
           <Card containerStyle={styles.cardStyle}>
             <Image style={styles.CardImg} source={{uri:item.uri}}/>
             <View style={styles.BtnStyle}>
-                <Button containerStyle={styles.LikeTxt} type="outline"><Text>{likes}</Text></Button>
-                <Button onPress={()=> handleLikes()} containerStyle={styles.BtnContainer} size="md">Like</Button>
-                <Button onPress={()=> HandleDislikes()} containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
+                <Button containerStyle={styles.LikeTxt} size="md" type="outline"><Text>{likes}</Text></Button>
+                <Button onPress={()=> AdvLikes(item.likesId)} disabled={likeActive} containerStyle={styles.BtnContainer} size="md">Like</Button>
+                <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
             </View>
         </Card>
         )}
