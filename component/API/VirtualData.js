@@ -1,2 +1,23 @@
-const VirtualData = [{}]
+const VirtualData = [
+    {
+      "name": "Linkin Park",
+      "song": "In the End",
+      "youtubeId": "eVTXPUF4Oz4"
+    },
+    {
+      "name": "Breaking Benjamin",
+      "song": "Diary of Jane",
+      "youtubeId": "DWaB4PXCwFU"
+    },
+    {
+      "name": "Starset",
+      "song": "My Demons",
+      "youtubeId": "p-N_y1bZtRw"
+    },
+    {
+      "name": "Thousand Foot Krutch",
+      "song": "War of Change",
+      "youtubeId": "HdnTSXUWd3E"
+    }
+  ]
 export default VirtualData;

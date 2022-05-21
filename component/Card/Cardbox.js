@@ -1,8 +1,11 @@
+import React,{useState} from 'react';
 import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import {  Card } from '@rneui/themed';
 import {  Button } from '@rneui/base';
+import VirtualData from '../API/VirtualData';
 
 export default function CardBox() {
+  const [likes, setLikes] = useState(0)
   return (
     <ScrollView style={styles.container}>
         <View style={styles.AllBtn}>
@@ -10,22 +13,17 @@ export default function CardBox() {
             <Button type='outline' containerStyle={styles.BtnContainer}>Reset</Button>
             <Button containerStyle={styles.BtnContainer} color='error'>Dislike All</Button>
         </View>
-        <Card containerStyle={styles.cardStyle}>
+        {VirtualData.map((name)=>{
+          return(
+           <Card containerStyle={styles.cardStyle}>
             <Image style={styles.CardImg} source={{uri:"https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"}}/>
             <View style={styles.BtnStyle}>
-                <Button containerStyle={styles.LikeTxt} type="outline">100</Button>
+                <Button containerStyle={styles.LikeTxt} type="outline"><Text>{likes}</Text></Button>
                 <Button containerStyle={styles.BtnContainer} size="md">Like</Button>
                 <Button containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
             </View>
-        </Card>
-        <Card containerStyle={styles.cardStyle}>
-            <Image style={styles.CardImg} source={{uri:"https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"}}/>
-            <View style={styles.BtnStyle}>
-                <Button containerStyle={styles.LikeTxt} type="outline">100</Button>
-                <Button containerStyle={styles.BtnContainer} size="md">Like</Button>
-                <Button containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
-            </View>
-        </Card>
+        </Card>)
+        })}
     </ScrollView>
   );
 }
