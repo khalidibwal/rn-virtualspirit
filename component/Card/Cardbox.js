@@ -1,42 +1,71 @@
 import React,{useState} from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, FlatList } from 'react-native';
 import {  Card } from '@rneui/themed';
 import {  Button } from '@rneui/base';
 import VirtualData from '../API/VirtualData';
 
 export default function CardBox() {
   const [likes, setLikes] = useState(0)
+  const [dislikes, setDislikes] = useState(0)
+  const [likeActive, setLikeActive] = useState(false)
+  const [dislikeActive, setdisLikeActive] = useState(false)
+
+  const DislikeAct = () =>{
+    setdisLikeActive(!dislikeActive)
+    setDislikes(dislikeActive ? dislikes - 1 : dislikes + 1)
+  }
+  const LikeAct = () =>{
+    setLikeActive(!likeActive)
+    setLikes(likeActive ? likes - 1 : likes + 1)
+  }
+
+  const handleLikes = () =>{
+    if(dislikeActive){
+      LikeAct();
+      DislikeAct();
+    }
+    LikeAct();
+  }
+
+  const HandleDislikes = () =>{
+    if(likeActive){
+      DislikeAct();
+      LikeAct();
+    }
+    DislikeAct();
+  }
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
         <View style={styles.AllBtn}>
-            <Button containerStyle={styles.BtnContainer}>Like All</Button>
+            <Button onPress={()=> handleLikes()} containerStyle={styles.BtnContainer}>Like All</Button>
             <Button type='outline' containerStyle={styles.BtnContainer}>Reset</Button>
-            <Button containerStyle={styles.BtnContainer} color='error'>Dislike All</Button>
+            <Button onPress={()=> HandleDislikes()} containerStyle={styles.BtnContainer} color='error'>Dislike All</Button>
         </View>
-        {VirtualData.map((name)=>{
-          return(
-           <Card containerStyle={styles.cardStyle}>
-            <Image style={styles.CardImg} source={{uri:"https://avatars0.githubusercontent.com/u/32242596?s=460&u=1ea285743fc4b083f95d6ee0be2e7bb8dcfc676e&v=4"}}/>
+        <FlatList
+        data={VirtualData}
+        renderItem={({item})=>(
+          <Card containerStyle={styles.cardStyle}>
+            <Image style={styles.CardImg} source={{uri:item.uri}}/>
             <View style={styles.BtnStyle}>
                 <Button containerStyle={styles.LikeTxt} type="outline"><Text>{likes}</Text></Button>
-                <Button containerStyle={styles.BtnContainer} size="md">Like</Button>
-                <Button containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
+                <Button onPress={()=> handleLikes()} containerStyle={styles.BtnContainer} size="md">Like</Button>
+                <Button onPress={()=> HandleDislikes()} containerStyle={styles.BtnContainer} color='error' size="md">Dislike</Button>
             </View>
-        </Card>)
-        })}
-    </ScrollView>
+        </Card>
+        )}
+        keyExtractor={item => item.likesId}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     width : '100%',
-        height : 200,
         marginTop: 55,
         marginBottom : 15,
         borderRadius : 15,
         backgroundColor : '#FFFFFF',
-        overflow : 'hidden'
   },
   cardStyle:{
       borderRadius:15
@@ -51,8 +80,8 @@ const styles = StyleSheet.create({
   },
   BtnContainer:{
     padding:5,
-    justifyContent:'flex-end',
-    borderRadius:5
+    justifyContent:'center',
+    borderRadius:15
   },
   LikeTxt:{
       padding:5,
