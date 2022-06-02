@@ -1,8 +1,8 @@
-import CardBox from './component/Card/Cardbox';
+import MainStackNavigator from './routes/MainStackNavigator';
 
 export default function App() {
   return (
-    <CardBox />
+    <MainStackNavigator />
   );
 }
 
