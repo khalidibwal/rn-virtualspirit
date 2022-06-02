@@ -1,74 +1,85 @@
 import React,{useState} from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, FlatList } from 'react-native';
 import {  Card } from '@rneui/themed';
-import {  Button } from '@rneui/base';
+import {  Button, Switch } from '@rneui/base';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import VirtualData from '../API/VirtualData';
 
 export default function CardBox() {
+  const [data, setData] = useState(VirtualData);
   const [likes, setLikes] = useState(0)
   const [dislikes, setDislikes] = useState(0)
   const [likeActive, setLikeActive] = useState(false)
   const [dislikeActive, setdisLikeActive] = useState(false)
 
-  const DislikeAct = () =>{
-    setdisLikeActive(!dislikeActive)
-    setDislikes(dislikeActive ? dislikes - 1 : dislikes + 1)
-  }
-  const LikeAct = () =>{
-    setLikeActive(!likeActive)
-    setLikes(likeActive ? likes - 1 : likes + 1)
-  }
-
-  const handleAllLikes = () =>{
-    if(dislikeActive){
-      LikeAct();
-      DislikeAct();
-    }
-    LikeAct();
-  }
-  const AdvLikes = (id) => {
-    var data = VirtualData.filter((item)=> item.likesId === id).map((item)=>(item.likesId))
-    if(data.toString()){
-      if(dislikeActive){
-        LikeAct();
-        DislikeAct();
+  const SingleLikes = (props) => {
+    let count = props.countLike + 1
+    const newState = data.map(obj => {
+      if (obj.likesId === props.likesId) {
+        return {...obj, countLike: count};
       }
-      LikeAct();
-    }
+      return obj;
+    });
 
+    setData(newState);
+  };
+
+  const SingleDislike = (props) => {
+    let count = props.countLike - 1
+    const newState = data.map(obj => {
+      if (obj.likesId === props.likesId) {
+        return {...obj, countLike: count};
+      }
+      return obj;
+    });
+
+    setData(newState);
+  };
+  
+  const AllLikes = () => {
+    const newState = data.map(obj => {
+        return {...obj, countLike: obj.countLike + 1};
+
+    });
+
+    setData(newState);
   }
 
-  const HandleAllDislikes = () =>{
-    if(likeActive){
-      DislikeAct();
-      LikeAct();
-    }
-    DislikeAct();
+  const AllDislikes = () => {
+    const newState = data.map(obj => {
+        return {...obj, countLike: obj.countLike - 1};
+
+    });
+
+    setData(newState);
   }
 
-  const ResetLike = () =>{
-    setLikes(0)
-    setDislikes(0)
-    setLikeActive(false)
-    setdisLikeActive(false)
+  const Reset = () =>{
+    const newState = data.map(obj => {
+      return {...obj, countLike: 0};
+
+  });
+
+  setData(newState);
   }
+
+
   return (
     <View style={styles.container}>
         <View style={styles.AllBtn}>
-            <Button onPress={()=> handleAllLikes()} containerStyle={styles.AllBtnContainer}>Like All</Button>
-            <Button onPress={()=> ResetLike()} type='outline' containerStyle={styles.AllBtnContainer}>Reset</Button>
-            <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.AllBtnContainer} color='error'>Dislike All</Button>
+            <Button onPress={()=> AllLikes()} containerStyle={styles.AllBtnContainer}>Like All</Button>
+            <Button onPress={()=> Reset()} type='outline' containerStyle={styles.AllBtnContainer}>Reset</Button>
+            <Button onPress={()=> AllDislikes()} containerStyle={styles.AllBtnContainer} color='error'>Dislike All</Button>
         </View>
         <FlatList
-        data={VirtualData}
+        data={data}
         renderItem={({item})=>(
           <Card containerStyle={styles.cardStyle}>
             <Image style={styles.CardImg} source={{uri:item.uri}}/>
             <View style={styles.BtnStyle}>
-                <Button containerStyle={styles.LikeTxt} size="md" type="outline"><Text>{likes}</Text></Button>
-                <Button onPress={()=> AdvLikes(item.likesId)} containerStyle={styles.BtnContainer} size="md"><Icon name="thumbs-up" size={30} color="#900" />Like</Button>
-                <Button onPress={()=> HandleAllDislikes()} containerStyle={styles.BtnContainer} color='error' size="md"><Icon name="thumbs-down" size={30} color="#900" />Dislike</Button>
+                <Button containerStyle={styles.LikeTxt} size="md" type="outline"><Text>{item.countLike}</Text></Button>
+                <Button onPress={()=> SingleLikes(item)} value={"Add"} containerStyle={styles.BtnContainer} size="md"><Icon name="thumbs-up" size={30} color="#900" />Like</Button>
+                <Button onPress={()=> SingleDislike(item)} value={"Min"} containerStyle={styles.BtnContainer} color='error' size="md"><Icon name="thumbs-down" size={30} color="#900" />Dislike</Button>
             </View>
         </Card>
         )}

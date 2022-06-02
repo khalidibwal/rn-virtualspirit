@@ -1,4 +1,4 @@
-const VirtualData = [
+let VirtualData = [
     {
       "name": "Linkin Park",
       "song": "In the End",
